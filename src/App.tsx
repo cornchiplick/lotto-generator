@@ -1,4 +1,10 @@
-import {generateLottoNumbers, isEnter, validatePrice} from "@/utils/utils";
+import {
+  generateLottoNumbers,
+  generateResultNumbers,
+  getResultTable,
+  isEnter,
+  validatePrice,
+} from "@/utils/utils";
 import {KeyboardEvent, useState} from "react";
 import {useForm} from "react-hook-form";
 
@@ -8,6 +14,10 @@ interface PriceForm {
 
 function App() {
   const [lottoNumbers, setLottoNumbers] = useState<number[][]>([]);
+  const [winningNumbers, setWinningNumbers] = useState<number[]>([]);
+  const [bonusNumber, setBonusNumber] = useState<number | null>(null);
+  const [resultTable, setResultTable] = useState<Record<string, number>>({});
+
   const {
     register,
     handleSubmit,
@@ -28,6 +38,23 @@ function App() {
     if (isEnter(e)) {
       handleSubmit(purchaseLotto)();
     }
+  };
+
+  const checkResult = () => {
+    const {result, bonus} = generateResultNumbers();
+    setWinningNumbers(result);
+    setBonusNumber(bonus);
+
+    const resultTable = getResultTable({lottoNumbers, winningNumbers: result, bonusNumber: bonus});
+    setResultTable(resultTable);
+  };
+
+  const handleReset = () => {
+    setLottoNumbers([]);
+    setWinningNumbers([]);
+    setBonusNumber(null);
+    setResultTable({});
+    reset({price: null});
   };
 
   const renderInterface = (
@@ -61,8 +88,10 @@ function App() {
       <h2 className="text-lg font-bold">구매한 로또 번호</h2>
       {!!lottoNumbers.length && (
         <ul className="space-y-2">
-          {lottoNumbers.map((numbers) => (
-            <li className="rounded bg-gray-100 p-2">{numbers.join(", ")}</li>
+          {lottoNumbers.map((numbers, index) => (
+            <li key={index} className="rounded bg-gray-100 p-2">
+              {numbers.join(", ")}
+            </li>
           ))}
         </ul>
       )}
@@ -71,29 +100,33 @@ function App() {
 
   const renderResult = (
     <div className="flex flex-col gap-2">
-      <button className="bg-primary h-10 w-full rounded-md px-4 py-2 text-sm text-white">
+      <button
+        className="bg-primary h-10 w-full rounded-md px-4 py-2 text-sm text-white"
+        onClick={checkResult}>
         결과 확인
       </button>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <h2 className="text-lg font-semibold">당첨 번호</h2>
-          <p className="rounded bg-yellow-100 p-2">
-            11, 17, 19, 31, 36, 38
-            <span className="font-bold">{` + 44`}</span>
-          </p>
+      {!!winningNumbers.length && !!Object.keys(resultTable).length && (
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-lg font-semibold">당첨 번호</h2>
+            <p className="rounded bg-yellow-100 p-2">
+              {winningNumbers.join(", ")}
+              <span className="font-bold">{` + ${bonusNumber}`}</span>
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <h3 className="text-lg font-semibold">당첨 결과</h3>
+            <ul className="space-y-1">
+              <li>{`1등: ${resultTable.first}개`}</li>
+              <li>{`2등: ${resultTable.second}개`}</li>
+              <li>{`3등: ${resultTable.third}개`}</li>
+              <li>{`4등: ${resultTable.fourth}개`}</li>
+              <li>{`5등: ${resultTable.fifth}개`}</li>
+              <li>{`꽝: ${resultTable.fail}개`}</li>
+            </ul>
+          </div>
         </div>
-        <div className="flex flex-col gap-2">
-          <h3 className="text-lg font-semibold">당첨 결과</h3>
-          <ul className="space-y-1">
-            <li>1등: 0 개</li>
-            <li>1등: 0 개</li>
-            <li>1등: 0 개</li>
-            <li>1등: 0 개</li>
-            <li>1등: 0 개</li>
-            <li>1등: 0 개</li>
-          </ul>
-        </div>
-      </div>
+      )}
     </div>
   );
 
@@ -104,7 +137,9 @@ function App() {
         {renderInterface}
         {renderLottoNumbers}
         {renderResult}
-        <button className="bg-primary h-10 w-full rounded-md px-4 py-2 text-sm text-white">
+        <button
+          className="bg-primary h-10 w-full rounded-md px-4 py-2 text-sm text-white"
+          onClick={handleReset}>
           처음부터 다시하기
         </button>
       </div>
