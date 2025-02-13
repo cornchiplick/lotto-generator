@@ -1,3 +1,5 @@
+import {Constants} from "@/constants/constants";
+import {useLottoStorage} from "@/useLottoStorage";
 import {
   generateLottoNumbers,
   generateResultNumbers,
@@ -17,6 +19,7 @@ const Home = () => {
   const [winningNumbers, setWinningNumbers] = useState<number[]>([]);
   const [bonusNumber, setBonusNumber] = useState<number | null>(null);
   const [resultTable, setResultTable] = useState<Record<string, number>>({});
+  const {setItem} = useLottoStorage(Constants.LOTTO_STORAGE_KEY);
 
   const {
     register,
@@ -47,6 +50,14 @@ const Home = () => {
 
     const resultTable = getResultTable({lottoNumbers, winningNumbers: result, bonusNumber: bonus});
     setResultTable(resultTable);
+
+    setItem({
+      purchaseAmount: lottoNumbers.length * 1000,
+      ticketCount: lottoNumbers.length,
+      winningNumbers: result,
+      bonusNumber: bonus,
+      results: resultTable,
+    });
   };
 
   const handleReset = () => {
