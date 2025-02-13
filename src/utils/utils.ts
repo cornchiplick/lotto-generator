@@ -1,3 +1,4 @@
+import {Constants} from "@/constants/constants";
 import {KeyboardEvent} from "react";
 
 interface ResultTable {
@@ -7,11 +8,11 @@ interface ResultTable {
 }
 
 export const validatePrice = (price: number | null) => {
-  if (!price || price < 1000) {
+  if (!price || price < Constants.LOTTO_PRICE_PER_GAME) {
     return "최소 1,000원 이상 입력해주세요.";
   }
 
-  if (price % 1000 !== 0) {
+  if (price % Constants.LOTTO_PRICE_PER_GAME !== 0) {
     return "1,000원 단위로 입력해주세요.";
   }
   return true;
@@ -23,8 +24,8 @@ export const isEnter = (event: KeyboardEvent<HTMLInputElement>) => {
 
 export const generateLottoNumbers = () => {
   const numbers = new Set<number>();
-  while (numbers.size < 6) {
-    const randomNum = Math.floor(Math.random() * 45) + 1;
+  while (numbers.size < Constants.LOTTO_WINNING_NUMBER_COUNT) {
+    const randomNum = Math.floor(Math.random() * Constants.LOTTO_MAX_NUMBER) + 1;
     numbers.add(randomNum);
   }
   return Array.from(numbers).sort((a, b) => a - b);
@@ -32,10 +33,10 @@ export const generateLottoNumbers = () => {
 
 export const generateResultNumbers = () => {
   const numbers = new Set<number>();
-  const index = Math.floor(Math.random() * 6);
+  const index = Math.floor(Math.random() * Constants.LOTTO_WINNING_NUMBER_COUNT);
 
-  while (numbers.size < 7) {
-    const randomNum = Math.floor(Math.random() * 45) + 1;
+  while (numbers.size < Constants.LOTTO_WINNING_NUMBER_COUNT + 1) {
+    const randomNum = Math.floor(Math.random() * Constants.LOTTO_MAX_NUMBER) + 1;
     numbers.add(randomNum);
   }
 
