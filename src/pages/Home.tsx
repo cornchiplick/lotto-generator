@@ -1,5 +1,5 @@
 import {Constants} from "@/constants/constants";
-import {useLottoStorage} from "@/useLottoStorage";
+import {useLottoStorage} from "@/hook/useLottoStorage";
 import {
   generateLottoNumbers,
   generateResultNumbers,

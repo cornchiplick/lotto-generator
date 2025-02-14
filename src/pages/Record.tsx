@@ -1,6 +1,6 @@
 import Card, {CardContent, CardHeader} from "@/components/Card";
 import {Constants, LOTTO_RANK_MAP, URL} from "@/constants/constants";
-import {useLottoStorage} from "@/useLottoStorage";
+import {useLottoStorage} from "@/hook/useLottoStorage";
 import {useNavigate} from "react-router-dom";
 
 const Record = () => {
