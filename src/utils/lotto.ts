@@ -1,11 +1,6 @@
 import {Constants} from "@/constants/constants";
+import {LottoResultTable} from "@/types/Lotto";
 import {KeyboardEvent} from "react";
-
-interface ResultTable {
-  lottoNumbers: number[][];
-  winningNumbers: number[];
-  bonusNumber: number;
-}
 
 export const validatePrice = (price: number | null) => {
   if (!price || price < Constants.LOTTO_PRICE_PER_GAME) {
@@ -47,7 +42,7 @@ export const generateResultNumbers = () => {
   return {result, bonus: bonusNumber};
 };
 
-export const getResultTable = ({lottoNumbers, winningNumbers, bonusNumber}: ResultTable) => {
+export const getResultTable = ({lottoNumbers, winningNumbers, bonusNumber}: LottoResultTable) => {
   let first = 0;
   let second = 0;
   let third = 0;

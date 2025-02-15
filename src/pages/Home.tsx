@@ -1,12 +1,13 @@
 import {Constants} from "@/constants/constants";
 import {useLottoStorage} from "@/hook/useLottoStorage";
+import {LottoNumber} from "@/types/Lotto";
 import {
   generateLottoNumbers,
   generateResultNumbers,
   getResultTable,
   isEnter,
   validatePrice,
-} from "@/utils/utils";
+} from "@/utils/lotto";
 import {KeyboardEvent, useState} from "react";
 import {useForm} from "react-hook-form";
 
@@ -15,8 +16,8 @@ interface PriceForm {
 }
 
 const Home = () => {
-  const [lottoNumbers, setLottoNumbers] = useState<number[][]>([]);
-  const [winningNumbers, setWinningNumbers] = useState<number[]>([]);
+  const [lottoNumbers, setLottoNumbers] = useState<LottoNumber[]>([]);
+  const [winningNumbers, setWinningNumbers] = useState<LottoNumber>([]);
   const [bonusNumber, setBonusNumber] = useState<number | null>(null);
   const [resultTable, setResultTable] = useState<Record<string, number>>({});
   const {setItem} = useLottoStorage(Constants.LOTTO_STORAGE_KEY);
@@ -65,7 +66,7 @@ const Home = () => {
     setWinningNumbers([]);
     setBonusNumber(null);
     setResultTable({});
-    reset({price: null});
+    reset();
   };
 
   const renderInterface = (
