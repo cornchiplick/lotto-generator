@@ -1,18 +1,18 @@
 import {Constants} from "@/constants/constants";
-import {LottoResultTable} from "@/types/Lotto";
+import {LottoResultTable, ValidatePriceReturn} from "@/types/Lotto";
 import {KeyboardEvent} from "react";
 
-export const validatePrice = (price: number | null) => {
-  if (!price) return false;
+export const validatePrice = (price: number | null): ValidatePriceReturn => {
+  if (!price) return {message: "", valid: false};
 
   if (price < Constants.LOTTO_PRICE_PER_GAME) {
-    return "최소 1,000원 이상 입력해주세요.";
+    return {message: "최소 1,000원 이상 입력해주세요.", valid: false};
   }
 
   if (price % Constants.LOTTO_PRICE_PER_GAME !== 0) {
-    return "1,000원 단위로 입력해주세요.";
+    return {message: "1,000원 단위로 입력해주세요.", valid: false};
   }
-  return true;
+  return {message: "", valid: true};
 };
 
 export const isEnter = (event: KeyboardEvent<HTMLInputElement>) => {

@@ -23,7 +23,12 @@ const LottoPriceForm = ({onSubmit, register, isValid, onKeyUp, errors}: LottoPri
             <input
               id="price"
               type="number"
-              {...register("price", {validate: validatePrice})}
+              {...register("price", {
+                validate: (value) => {
+                  const {message, valid} = validatePrice(value);
+                  return valid || message;
+                },
+              })}
               className="flex h-10 w-full rounded-md border border-gray-300 px-3 text-sm text-gray-700 focus:border-gray-500 focus:outline-none"
               placeholder="금액을 입력하세요"
               onKeyUp={isValid ? onKeyUp : undefined}

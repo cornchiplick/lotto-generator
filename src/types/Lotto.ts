@@ -6,6 +6,11 @@ export interface PriceForm {
   price: number | null;
 }
 
+export interface ValidatePriceReturn {
+  message: string;
+  valid: boolean;
+}
+
 export interface LottoResultTable {
   lottoNumbers: LottoNumber[];
   winningNumbers: LottoNumber;
