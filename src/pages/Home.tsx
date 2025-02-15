@@ -44,7 +44,7 @@ const Home = () => {
     }
   };
 
-  const checkResult = () => {
+  const handleCheckResult = () => {
     const {result, bonus} = generateResultNumbers();
     setWinningNumbers(result);
     setBonusNumber(bonus);
@@ -114,7 +114,7 @@ const Home = () => {
     <div className="flex flex-col gap-2">
       <button
         className="h-10 w-full rounded-md bg-primary px-4 py-2 text-sm text-white"
-        onClick={checkResult}>
+        onClick={handleCheckResult}>
         결과 확인
       </button>
       {!!winningNumbers.length && !!Object.keys(resultTable).length && (
