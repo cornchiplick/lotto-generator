@@ -26,7 +26,7 @@ const Home = () => {
     handleSubmit,
     reset,
     formState: {errors},
-  } = useForm<PriceForm>();
+  } = useForm<PriceForm>({defaultValues: {price: null}});
 
   const purchaseLotto = (data: PriceForm) => {
     if (!data.price) return;
@@ -34,7 +34,7 @@ const Home = () => {
     const tickets = Math.floor(data.price / 1000);
     const lottoNumbers = Array.from({length: tickets}, () => generateLottoNumbers());
     setLottoNumbers([...lottoNumbers]);
-    reset({price: null});
+    reset();
   };
 
   const handleKeyup = (e: KeyboardEvent<HTMLInputElement>) => {
