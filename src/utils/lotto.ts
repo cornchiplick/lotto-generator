@@ -37,7 +37,7 @@ export const generateResultNumbers = () => {
     numbers.add(randomNum);
   }
 
-  const bonusNumber = Array.from(numbers).sort((a, b) => a - b)[index];
+  const bonusNumber = Array.from(numbers)[index];
   const result = Array.from(numbers)
     .filter((item) => item !== bonusNumber)
     .sort((a, b) => a - b);
