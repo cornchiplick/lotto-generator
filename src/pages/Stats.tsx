@@ -56,12 +56,12 @@ const Stats = () => {
       {first: 0, second: 0, third: 0, fourth: 0, fifth: 0, fail: 0}
     );
     setWinningProbability({
-      first: (winCountStats.first / totalRound) * 100,
-      second: (winCountStats.second / totalRound) * 100,
-      third: (winCountStats.third / totalRound) * 100,
-      fourth: (winCountStats.fourth / totalRound) * 100,
-      fifth: (winCountStats.fifth / totalRound) * 100,
-      fail: (winCountStats.fail / totalRound) * 100,
+      first: !!winCountStats.first ? (winCountStats.first / totalRound) * 100 : 0,
+      second: !!winCountStats.second ? (winCountStats.second / totalRound) * 100 : 0,
+      third: !!winCountStats.third ? (winCountStats.third / totalRound) * 100 : 0,
+      fourth: !!winCountStats.fourth ? (winCountStats.fourth / totalRound) * 100 : 0,
+      fifth: !!winCountStats.fifth ? (winCountStats.fifth / totalRound) * 100 : 0,
+      fail: !!winCountStats.fail ? (winCountStats.fail / totalRound) * 100 : 0,
     });
   }, [state]);
 
