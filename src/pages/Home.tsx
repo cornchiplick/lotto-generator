@@ -26,7 +26,7 @@ const Home = () => {
     register,
     handleSubmit,
     reset,
-    formState: {errors},
+    formState: {errors, isValid},
   } = useForm<PriceForm>({defaultValues: {price: null}});
 
   const purchaseLotto = ({price}: PriceForm) => {
@@ -70,29 +70,31 @@ const Home = () => {
   };
 
   const renderInterface = (
-    <div className="flex flex-col gap-1">
-      <div className="flex items-end space-x-2">
-        <div className="flex w-full flex-col gap-2">
-          <label htmlFor="price" className="text-sm">
-            로또 구매 금액
-          </label>
-          <input
-            id="price"
-            type="number"
-            {...register("price", {validate: validatePrice})}
-            className="flex h-10 w-full rounded-md border border-gray-300 px-3 text-sm text-gray-700 focus:border-gray-500 focus:outline-none"
-            placeholder="금액을 입력하세요"
-            onKeyUp={handleKeyup}
-          />
+    <form onSubmit={handleSubmit(purchaseLotto)}>
+      <div className="flex flex-col gap-1">
+        <div className="flex items-end space-x-2">
+          <div className="flex w-full flex-col gap-2">
+            <label htmlFor="price" className="text-sm">
+              로또 구매 금액
+            </label>
+            <input
+              id="price"
+              type="number"
+              {...register("price", {validate: validatePrice})}
+              className="flex h-10 w-full rounded-md border border-gray-300 px-3 text-sm text-gray-700 focus:border-gray-500 focus:outline-none"
+              placeholder="금액을 입력하세요"
+              onKeyUp={isValid ? handleKeyup : () => {}}
+            />
+          </div>
+          <button
+            className="h-10 min-w-[60px] rounded-md bg-primary px-4 py-2 text-sm text-white disabled:opacity-25"
+            disabled={!isValid}>
+            구매
+          </button>
         </div>
-        <button
-          className="h-10 min-w-[60px] rounded-md bg-primary px-4 py-2 text-sm text-white"
-          onClick={handleSubmit(purchaseLotto)}>
-          구매
-        </button>
+        {errors.price?.message && <p className="text-sm text-red-500">{errors.price?.message}</p>}
       </div>
-      {errors.price?.message && <p className="text-sm text-red-500">{errors.price?.message}</p>}
-    </div>
+    </form>
   );
 
   const renderLottoNumbers = (

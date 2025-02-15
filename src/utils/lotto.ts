@@ -3,7 +3,9 @@ import {LottoResultTable} from "@/types/Lotto";
 import {KeyboardEvent} from "react";
 
 export const validatePrice = (price: number | null) => {
-  if (!price || price < Constants.LOTTO_PRICE_PER_GAME) {
+  if (!price) return false;
+
+  if (price < Constants.LOTTO_PRICE_PER_GAME) {
     return "최소 1,000원 이상 입력해주세요.";
   }
 
