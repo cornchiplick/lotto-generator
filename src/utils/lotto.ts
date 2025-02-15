@@ -1,25 +1,26 @@
 import {Constants} from "@/constants/constants";
+import {LottoResultTable, ValidatePriceReturn} from "@/types/Lotto";
 import {KeyboardEvent} from "react";
 
-interface ResultTable {
-  lottoNumbers: number[][];
-  winningNumbers: number[];
-  bonusNumber: number;
-}
+export const validatePrice = (price: number | null): ValidatePriceReturn => {
+  if (!price) return {message: "", valid: false};
 
-export const validatePrice = (price: number | null) => {
-  if (!price || price < Constants.LOTTO_PRICE_PER_GAME) {
-    return "최소 1,000원 이상 입력해주세요.";
+  if (price < Constants.LOTTO_PRICE_PER_GAME) {
+    return {message: "최소 1,000원 이상 입력해주세요.", valid: false};
   }
 
   if (price % Constants.LOTTO_PRICE_PER_GAME !== 0) {
-    return "1,000원 단위로 입력해주세요.";
+    return {message: "1,000원 단위로 입력해주세요.", valid: false};
   }
-  return true;
+  return {message: "", valid: true};
 };
 
 export const isEnter = (event: KeyboardEvent<HTMLInputElement>) => {
   return event.key === "Enter" && !event.nativeEvent?.isComposing;
+};
+
+export const isEmptyObject = (param: Record<string, unknown>): boolean => {
+  return Object.keys(param).length === 0;
 };
 
 export const generateLottoNumbers = () => {
@@ -40,14 +41,14 @@ export const generateResultNumbers = () => {
     numbers.add(randomNum);
   }
 
-  const bonusNumber = Array.from(numbers).sort((a, b) => a - b)[index];
+  const bonusNumber = Array.from(numbers)[index];
   const result = Array.from(numbers)
     .filter((item) => item !== bonusNumber)
     .sort((a, b) => a - b);
   return {result, bonus: bonusNumber};
 };
 
-export const getResultTable = ({lottoNumbers, winningNumbers, bonusNumber}: ResultTable) => {
+export const getResultTable = ({lottoNumbers, winningNumbers, bonusNumber}: LottoResultTable) => {
   let first = 0;
   let second = 0;
   let third = 0;
@@ -55,40 +56,40 @@ export const getResultTable = ({lottoNumbers, winningNumbers, bonusNumber}: Resu
   let fifth = 0;
   let fail = 0;
 
-  lottoNumbers.map((numbers) => {
+  lottoNumbers.forEach((numbers) => {
     const matchedNumbers = numbers.filter((number) => winningNumbers.includes(number));
-    // mns < 3 : 꽝
+    // 매칭된 번호 수 < 3 : 꽝
     if (matchedNumbers.length < 3) {
       fail++;
       return;
     }
 
-    // mns === 3 : 5등
+    // 매칭된 번호 수 === 3 : 5등
     if (matchedNumbers.length === 3) {
       fifth++;
       return;
     }
 
-    // mns === 4 : 4등
+    // 매칭된 번호 수 === 4 : 4등
     if (matchedNumbers.length === 4) {
       fourth++;
       return;
     }
 
-    // mns === 6 : 1등
+    // 매칭된 번호 수 === 6 : 1등
     if (matchedNumbers.length === 6) {
       first++;
       return;
     }
-    // mns === 5
+    // 매칭된 번호 수 === 5
     if (matchedNumbers.length === 5) {
-      //   includes(bn) : 2등
+      // 보너스 번호를 포함하는 경우 : 2등
       if (numbers.includes(bonusNumber)) {
         second++;
         return;
       }
 
-      //  !includes(bn) : 3등
+      // 보너스 번호를 포함하지 않는 경우 : 3등
       third++;
     }
   });

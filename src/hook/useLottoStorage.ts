@@ -1,30 +1,5 @@
+import {RecordData, RecordHistory} from "@/types/Lotto";
 import {useEffect, useState} from "react";
-
-interface ResultTable {
-  first: number;
-  second: number;
-  third: number;
-  fourth: number;
-  fifth: number;
-  fail: number;
-}
-
-interface RecordData {
-  purchaseAmount: number;
-  ticketCount: number;
-  winningNumbers: number[];
-  bonusNumber: number;
-  results: ResultTable;
-}
-
-interface RecordHistory {
-  id: number;
-  purchaseAmount: number;
-  ticketCount: number;
-  winningNumbers: number[];
-  bonusNumber: number;
-  results: ResultTable;
-}
 
 export const useLottoStorage = (key: string) => {
   const [state, setState] = useState<RecordHistory[]>([]);
