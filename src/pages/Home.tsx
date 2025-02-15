@@ -32,7 +32,7 @@ const Home = () => {
   const purchaseLotto = ({price}: PriceForm) => {
     if (price === null) return;
 
-    const tickets = Math.floor(price / 1000);
+    const tickets = price / Constants.LOTTO_PRICE_PER_GAME;
     const lottoNumbers = Array.from({length: tickets}, () => generateLottoNumbers());
     setLottoNumbers([...lottoNumbers]);
     reset();
