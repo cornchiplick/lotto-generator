@@ -2,7 +2,13 @@ import LottoPriceForm from "@/components/Lotto/LottoPriceForm";
 import {Constants} from "@/constants/constants";
 import {useLottoStorage} from "@/hook/useLottoStorage";
 import {LottoNumber, PriceForm} from "@/types/Lotto";
-import {generateLottoNumbers, generateResultNumbers, getResultTable, isEnter} from "@/utils/lotto";
+import {
+  generateLottoNumbers,
+  generateResultNumbers,
+  getResultTable,
+  isEmptyObject,
+  isEnter,
+} from "@/utils/lotto";
 import {KeyboardEvent, useState} from "react";
 import {useForm} from "react-hook-form";
 
@@ -82,7 +88,7 @@ const Home = () => {
         onClick={handleCheckResult}>
         결과 확인
       </button>
-      {!!winningNumbers.length && !!Object.keys(lottoSummary).length && (
+      {!!winningNumbers.length && !isEmptyObject(lottoSummary) && (
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <h2 className="text-lg font-semibold">당첨 번호</h2>

@@ -19,6 +19,10 @@ export const isEnter = (event: KeyboardEvent<HTMLInputElement>) => {
   return event.key === "Enter" && !event.nativeEvent?.isComposing;
 };
 
+export const isEmptyObject = (param: Record<string, unknown>): boolean => {
+  return Object.keys(param).length === 0;
+};
+
 export const generateLottoNumbers = () => {
   const numbers = new Set<number>();
   while (numbers.size < Constants.LOTTO_WINNING_NUMBER_COUNT) {
