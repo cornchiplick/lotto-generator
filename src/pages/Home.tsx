@@ -19,7 +19,7 @@ const Home = () => {
   const [lottoNumbers, setLottoNumbers] = useState<LottoNumber[]>([]);
   const [winningNumbers, setWinningNumbers] = useState<LottoNumber>([]);
   const [bonusNumber, setBonusNumber] = useState<number | null>(null);
-  const [resultTable, setResultTable] = useState<Record<string, number>>({});
+  const [lottoSummary, setLottoSummary] = useState<Record<string, number>>({});
   const {setItem} = useLottoStorage(Constants.LOTTO_STORAGE_KEY);
 
   const {
@@ -49,15 +49,15 @@ const Home = () => {
     setWinningNumbers(result);
     setBonusNumber(bonus);
 
-    const resultTable = getResultTable({lottoNumbers, winningNumbers: result, bonusNumber: bonus});
-    setResultTable(resultTable);
+    const summary = getResultTable({lottoNumbers, winningNumbers: result, bonusNumber: bonus});
+    setLottoSummary(summary);
 
     setItem({
       purchaseAmount: lottoNumbers.length * 1000,
       ticketCount: lottoNumbers.length,
       winningNumbers: result,
       bonusNumber: bonus,
-      results: resultTable,
+      summary: summary,
     });
   };
 
@@ -65,7 +65,7 @@ const Home = () => {
     setLottoNumbers([]);
     setWinningNumbers([]);
     setBonusNumber(null);
-    setResultTable({});
+    setLottoSummary({});
     reset();
   };
 
@@ -117,7 +117,7 @@ const Home = () => {
         onClick={handleCheckResult}>
         결과 확인
       </button>
-      {!!winningNumbers.length && !!Object.keys(resultTable).length && (
+      {!!winningNumbers.length && !!Object.keys(lottoSummary).length && (
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <h2 className="text-lg font-semibold">당첨 번호</h2>
@@ -129,12 +129,12 @@ const Home = () => {
           <div className="flex flex-col gap-2">
             <h3 className="text-lg font-semibold">당첨 결과</h3>
             <ul className="space-y-1">
-              <li>{`1등: ${resultTable.first}개`}</li>
-              <li>{`2등: ${resultTable.second}개`}</li>
-              <li>{`3등: ${resultTable.third}개`}</li>
-              <li>{`4등: ${resultTable.fourth}개`}</li>
-              <li>{`5등: ${resultTable.fifth}개`}</li>
-              <li>{`꽝: ${resultTable.fail}개`}</li>
+              <li>{`1등: ${lottoSummary.first}개`}</li>
+              <li>{`2등: ${lottoSummary.second}개`}</li>
+              <li>{`3등: ${lottoSummary.third}개`}</li>
+              <li>{`4등: ${lottoSummary.fourth}개`}</li>
+              <li>{`5등: ${lottoSummary.fifth}개`}</li>
+              <li>{`꽝: ${lottoSummary.fail}개`}</li>
             </ul>
           </div>
         </div>

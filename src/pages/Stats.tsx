@@ -45,12 +45,12 @@ const Stats = () => {
       .reduce((acc, count) => acc + count, 0);
     const winCountStats = state.reduce(
       (acc, lotto) => {
-        acc.first += lotto.results.first;
-        acc.second += lotto.results.second;
-        acc.third += lotto.results.third;
-        acc.fourth += lotto.results.fourth;
-        acc.fifth += lotto.results.fifth;
-        acc.fail += lotto.results.fail;
+        acc.first += lotto.summary.first;
+        acc.second += lotto.summary.second;
+        acc.third += lotto.summary.third;
+        acc.fourth += lotto.summary.fourth;
+        acc.fifth += lotto.summary.fifth;
+        acc.fail += lotto.summary.fail;
         return acc;
       },
       {first: 0, second: 0, third: 0, fourth: 0, fifth: 0, fail: 0}

@@ -8,7 +8,7 @@ export interface LottoResultTable {
   bonusNumber: number;
 }
 
-export interface ResultTable {
+export interface LottoSummary {
   first: number;
   second: number;
   third: number;
@@ -22,7 +22,7 @@ export interface RecordData {
   ticketCount: number;
   winningNumbers: number[];
   bonusNumber: number;
-  results: ResultTable;
+  summary: LottoSummary;
 }
 
 export interface RecordHistory {
@@ -31,5 +31,5 @@ export interface RecordHistory {
   ticketCount: number;
   winningNumbers: number[];
   bonusNumber: number;
-  results: ResultTable;
+  summary: LottoSummary;
 }

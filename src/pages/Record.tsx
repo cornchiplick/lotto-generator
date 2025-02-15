@@ -46,7 +46,7 @@ const Record = () => {
                     <div>
                       <h3 className="mb-2 font-semibold">당첨 결과</h3>
                       <div className="grid grid-rows-2 gap-2">
-                        {Object.entries(history.results).map(([rank, count]) => (
+                        {Object.entries(history.summary).map(([rank, count]) => (
                           <div
                             key={rank}
                             className="flex items-center justify-between rounded-md bg-gray-50 p-2">
