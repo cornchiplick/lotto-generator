@@ -2,6 +2,10 @@
 export type LottoNumber = number[];
 
 // interface
+export interface PriceForm {
+  price: number | null;
+}
+
 export interface LottoResultTable {
   lottoNumbers: LottoNumber[];
   winningNumbers: LottoNumber;

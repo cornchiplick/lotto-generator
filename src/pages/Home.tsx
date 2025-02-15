@@ -1,19 +1,10 @@
+import LottoPriceForm from "@/components/Lotto/LottoPriceForm";
 import {Constants} from "@/constants/constants";
 import {useLottoStorage} from "@/hook/useLottoStorage";
-import {LottoNumber} from "@/types/Lotto";
-import {
-  generateLottoNumbers,
-  generateResultNumbers,
-  getResultTable,
-  isEnter,
-  validatePrice,
-} from "@/utils/lotto";
+import {LottoNumber, PriceForm} from "@/types/Lotto";
+import {generateLottoNumbers, generateResultNumbers, getResultTable, isEnter} from "@/utils/lotto";
 import {KeyboardEvent, useState} from "react";
 import {useForm} from "react-hook-form";
-
-interface PriceForm {
-  price: number | null;
-}
 
 const Home = () => {
   const [lottoNumbers, setLottoNumbers] = useState<LottoNumber[]>([]);
@@ -69,34 +60,6 @@ const Home = () => {
     reset();
   };
 
-  const renderInterface = (
-    <form onSubmit={handleSubmit(purchaseLotto)}>
-      <div className="flex flex-col gap-1">
-        <div className="flex items-end space-x-2">
-          <div className="flex w-full flex-col gap-2">
-            <label htmlFor="price" className="text-sm">
-              로또 구매 금액
-            </label>
-            <input
-              id="price"
-              type="number"
-              {...register("price", {validate: validatePrice})}
-              className="flex h-10 w-full rounded-md border border-gray-300 px-3 text-sm text-gray-700 focus:border-gray-500 focus:outline-none"
-              placeholder="금액을 입력하세요"
-              onKeyUp={isValid ? handleKeyup : () => {}}
-            />
-          </div>
-          <button
-            className="h-10 min-w-[60px] rounded-md bg-primary px-4 py-2 text-sm text-white disabled:opacity-25"
-            disabled={!isValid}>
-            구매
-          </button>
-        </div>
-        {errors.price?.message && <p className="text-sm text-red-500">{errors.price?.message}</p>}
-      </div>
-    </form>
-  );
-
   const renderLottoNumbers = (
     <div className="flex flex-col gap-2">
       <h2 className="text-lg font-bold">구매한 로또 번호</h2>
@@ -147,7 +110,13 @@ const Home = () => {
   return (
     <div className="flex w-full max-w-md flex-col gap-3 rounded-lg bg-white p-6 shadow-md">
       <h1 className="text-center text-2xl font-bold">로또 어플리케이션</h1>
-      {renderInterface}
+      <LottoPriceForm
+        onSubmit={handleSubmit(purchaseLotto)}
+        register={register}
+        isValid={isValid}
+        onKeyUp={handleKeyup}
+        errors={errors}
+      />
       {renderLottoNumbers}
       {renderResult}
       <button
